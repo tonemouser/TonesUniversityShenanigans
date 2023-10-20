@@ -11,7 +11,7 @@ resources:\
     type: module\
 views:\
   - path: default_view\
-    title: Home Assignment\
+    title: Dashboard Home\
     subview: false\
     type: custom:masonry-layout\
     layout:\
@@ -30,8 +30,6 @@ views:\
             service: browser_mod.popup\
             data:\
               title: Light Controls\
-              target:\
-                device_id: dd902a1fafdfbdb69d60722ba32aa964\
               content:\
                 type: entities\
                 entities:\
@@ -50,8 +48,7 @@ views:\
             service: browser_mod.popup\
             data:\
               title: Smart Plug controls\
-              target:\
-                device_id: dd902a1fafdfbdb69d60722ba32aa964\
+              target: null\
               content:\
                 type: entities\
                 entities:\
@@ -82,9 +79,7 @@ views:\
           browser_mod:\
             service: browser_mod.popup\
             data:\
-              title: SmartHomeScene.com\
-              target:\
-                device_id: dd902a1fafdfbdb69d60722ba32aa964\
+              target: null\
               content:\
                 type: entities\
                 entities:\
@@ -99,25 +94,24 @@ views:\
       - show_name: true\
         show_icon: true\
         type: button\
-        entity: device_tracker.cph1979\
-        name: Tone's location\
+        name: Climate Sensors\
         tap_action:\
-          action: navigate\
-          navigation_path: /lovelace/tones-location\
-        icon: mdi:cellphone-marker\
-        show_state: false\
+          action: fire-dom-event\
+          browser_mod:\
+            service: browser_mod.popup\
+            data:\
+              title: Light Controls\
+              target: null\
+              content:\
+                type: entities\
+                entities:\
+                  - binary_sensor.anthony_ms_motion\
+                  - sensor.anthony_ms_temp\
+                  - sensor.anthony_ms_humidity\
+                  - sensor.anthony_ms_light\
+        icon: mdi:lamp-outline\
         icon_height: 50px\
-      - show_name: true\
-        show_icon: true\
-        type: button\
-        entity: media_player.spotify\
-        name: Multimedia\
-        tap_action:\
-          action: navigate\
-          navigation_path: /lovelace/media\
-        icon: ''\
-        show_state: false\
-        icon_height: 50px\
+        show_state: true\
       - show_name: true\
         show_icon: true\
         type: button\
@@ -151,7 +145,7 @@ views:\
       - show_name: true\
         show_icon: true\
         type: button\
-        name: Landry\
+        name: Laundry\
         tap_action:\
           action: navigate\
           navigation_path: /lovelace/laundry\
@@ -171,25 +165,13 @@ views:\
       - show_name: true\
         show_icon: true\
         type: button\
-        name: Climate Sensors\
+        name: Security\
         tap_action:\
-          action: fire-dom-event\
-          browser_mod:\
-            service: browser_mod.popup\
-            data:\
-              title: Light Controls\
-              target:\
-                device_id: dd902a1fafdfbdb69d60722ba32aa964\
-              content:\
-                type: entities\
-                entities:\
-                  - binary_sensor.anthony_ms_motion\
-                  - sensor.anthony_ms_temp\
-                  - sensor.anthony_ms_humidity\
-                  - sensor.anthony_ms_light\
-        icon: mdi:lamp-outline\
-        icon_height: 50px\
+          action: navigate\
+          navigation_path: /lovelace/security\
+        icon: mdi:security\
         show_state: true\
+        icon_height: 50px\
   - title: Power Graphs\
     path: power-graphs\
     icon: mdi:chart-line\
@@ -208,64 +190,6 @@ views:\
       - type: custom:history-explorer-card\
         cardName: historycard-54431190\
         header: Laundry Smart Plug\
-  - title: Tone's Location\
-    path: tones-location\
-    icon: mdi:map-marker-radius-outline\
-    type: custom:horizontal-layout\
-    badges: []\
-    cards:\
-      - type: custom:layout-card\
-        layout_type: masonry\
-        layout: \{\}\
-        cards:\
-          - type: map\
-            entities:\
-              - device_tracker.cph1979\
-            hours_to_show: 2\
-      - type: entities\
-        entities:\
-          - sensor.tone_mobile_geocoded_location\
-          - sensor.tone_mobile_current_time_zone\
-          - sensor.tone_mobile_battery_power\
-          - sensor.tone_mobile_battery_level\
-          - binary_sensor.tone_mobile_is_charging\
-          - binary_sensor.tone_mobile_mobile_data\
-          - entity: device_tracker.cph1979\
-          - entity: zone.home\
-          - entity: person.anthony_mouser\
-  - title: Multimedia\
-    path: media\
-    icon: mdi:spotify\
-    type: custom:horizontal-layout\
-    badges: []\
-    cards:\
-      - type: vertical-stack\
-        cards:\
-          - type: markdown\
-            content: Bedroom 1 media controls\
-            title: Bedroom 1\
-          - type: vertical-stack\
-            cards:\
-              - type: picture\
-                image: http://192.168.1.17:8123/local/floorplan/Multimedia.png\
-      - type: vertical-stack\
-        cards:\
-          - type: markdown\
-            content: Bedroom 2 media controls\
-            title: Bedroom 2\
-          - type: vertical-stack\
-            cards:\
-              - type: picture\
-                image: http://192.168.1.17:8123/local/floorplan/Multimedia.png\
-      - type: vertical-stack\
-        cards:\
-          - type: markdown\
-            content: Lounge room media controls\
-            title: Lounge room\
-          - type: vertical-stack\
-            cards:\
-              - type: picture\
-                image: http://192.168.1.17:8123/local/floorplan/Multimedia.png\
   - title: Bedroom 1\
     path: bedroom-1\
     icon: mdi:bed\
@@ -279,39 +203,45 @@ views:\
             image: http://192.168.1.17:8123/local/floorplan/Bedroom1.jpeg\
             type: picture-elements\
             elements:\
-              - type: state-icon\
+              - type: image\
+                image: http://192.168.1.17:8123/local/Icons/smart-bulb.jpg\
                 entity: light.anthony_lamp\
                 style:\
-                  top: 90%\
-                  left: 50%\
-                  tap_action:\
-                    action: toggle\
-              - type: state-icon\
+                  top: 70%\
+                  left: 55%\
+                  width: 70px\
+                  border: 2px solid red\
+              - type: image\
+                image: http://192.168.1.17:8123/local/floorplan/tv.jpeg\
                 entity: media_player.chromecast\
                 style:\
                   top: 90%\
-                  left: 70%\
-                  tap_action:\
-                    action: toggle\
-              - type: icon\
-                icon: mdi:spotify\
+                  left: 63%\
+                  border: 2px solid red\
+              - type: image\
+                image: http://192.168.1.17:8123/local/Icons/spotify.png\
+                entity: media_player.spotify\
                 style:\
                   top: 90%\
-                  left: 60%\
-                  tap_action:\
-                    action: toggle\
-              - type: state-icon\
+                  left: 12%\
+                  width: 45px\
+                  border: 2px solid red\
+              - type: image\
+                image: http://192.168.1.17:8123/local/Icons/smartspeaker.png\
                 entity: media_player.nestmini8950\
                 style:\
-                  top: 90%\
-                  left: 80%\
-                  tap_action:\
-                    action: toggle\
-              - type: state-icon\
+                  top: 20%\
+                  left: 90%\
+                  width: 20%\
+                  border: 2px solid red\
+              - type: image\
+                image: http://192.168.1.17:8123/local/Icons/climate.png\
                 entity: binary_sensor.anthony_ms_motion\
                 style:\
-                  top: 90%\
-                  left: 90%\
+                  top: 88%\
+                  left: 89%\
+                  width: 90px\
+                  border: 2px solid red\
               - type: image\
                 image: http://192.168.1.17:8123/local/floorplan/smartplug.png\
                 entity: light.anthony_pp_sp\
@@ -319,72 +249,131 @@ views:\
                   width: 35px\
                   top: 90%\
                   left: 20%\
+              - type: image\
+                image: http://192.168.1.17:8123/local/floorplan/smartplug.png\
+                entity: light.anthony_pp_sp\
+                style:\
+                  width: 35px\
+                  top: 15%\
+                  left: 32%\
+              - type: image\
+                image: http://192.168.1.17:8123/local/floorplan/smartplug.png\
+                entity: light.anthony_pp_sp\
+                style:\
+                  width: 35px\
+                  top: 15%\
+                  left: 82%\
+                  border: 2px solid red\
+              - type: image\
+                image: http://192.168.1.17:8123/local/Icons/rotatedaircon.png\
+                entity: binary_sensor.anthony_ms_motion\
+                style:\
+                  top: 45%\
+                  left: 10%\
+                  width: 200px\
+              - type: image\
+                image: http://192.168.1.17:8123/local/Icons/windowsensor.png\
+                style:\
+                  top: 65%\
+                  left: 5%\
+                  width: 70px\
+              - type: image\
+                image: http://192.168.1.17:8123/local/Icons/nestprotect.png\
+                entity: sensor.anthony_ms_temp\
+                style:\
+                  top: 70%\
+                  left: 80%\
+                  width: 70px\
         layout:\
           width: 300\
           max_cols: 4\
-      - show_name: true\
-        show_icon: true\
-        type: button\
-        name: Smart Device Controls\
-        tap_action:\
-          action: fire-dom-event\
-          browser_mod:\
-            service: browser_mod.popup\
-            data:\
-              title: Light Controls\
-              target:\
-                device_id: dd902a1fafdfbdb69d60722ba32aa964\
-              content:\
-                type: entities\
-                entities:\
-                  - light.anthony_lamp\
-                  - media_player.spotify\
-                  - media_player.nestmini8950\
-                  - media_player.chromecast\
-        icon: mdi:lamp-outline\
-        icon_height: 50px\
-        show_state: true\
-      - show_name: true\
-        show_icon: true\
-        type: button\
-        name: Climate Sensors\
-        tap_action:\
-          action: fire-dom-event\
-          browser_mod:\
-            service: browser_mod.popup\
-            data:\
-              title: Light Controls\
-              target:\
-                device_id: dd902a1fafdfbdb69d60722ba32aa964\
-              content:\
-                type: entities\
-                entities:\
-                  - binary_sensor.anthony_ms_motion\
-                  - sensor.anthony_ms_temp\
-                  - sensor.anthony_ms_humidity\
-                  - sensor.anthony_ms_light\
-        icon: mdi:lamp-outline\
-        icon_height: 50px\
-        show_state: true\
-      - show_name: true\
-        show_icon: true\
-        type: button\
-        tap_action:\
-          action: fire-dom-event\
-          browser_mod:\
-            service: browser_mod.popup\
-            data:\
-              title: Smart Plug controls\
-              target:\
-                device_id: dd902a1fafdfbdb69d60722ba32aa964\
-              content:\
-                type: entities\
-                entities:\
-                  - light.anthony_pp_sp\
-        icon: mdi:power-plug\
-        name: Smart Plugs\
-        show_state: true\
-        icon_height: 50px\
+      - type: vertical-stack\
+        cards:\
+          - show_name: true\
+            show_icon: true\
+            type: button\
+            tap_action:\
+              action: fire-dom-event\
+              browser_mod:\
+                service: browser_mod.popup\
+                data:\
+                  title: Smart Plug controls\
+                  target: null\
+                  content:\
+                    type: entities\
+                    entities:\
+                      - entity: light.anthony_pp_sp\
+                        name: Bedroom 1 Plug 1\
+                      - entity: light.anthony_pp_sp\
+                        name: Bedroom 1 Plug 2\
+                      - entity: light.anthony_pp_sp\
+                        name: Bedroom 1 Plug 3\
+            icon: mdi:power-plug\
+            name: Smart Plugs\
+            show_state: true\
+            icon_height: 50px\
+          - show_name: true\
+            show_icon: true\
+            type: button\
+            name: Smart Device Controls\
+            tap_action:\
+              action: fire-dom-event\
+              browser_mod:\
+                service: browser_mod.popup\
+                data:\
+                  title: Light Controls\
+                  target: null\
+                  content:\
+                    type: entities\
+                    entities:\
+                      - light.anthony_lamp\
+                      - media_player.spotify\
+                      - media_player.nestmini8950\
+                      - media_player.chromecast\
+            icon: mdi:lamp-outline\
+            icon_height: 50px\
+            show_state: true\
+      - type: vertical-stack\
+        cards:\
+          - show_name: true\
+            show_icon: true\
+            type: button\
+            name: Security\
+            tap_action:\
+              action: fire-dom-event\
+              browser_mod:\
+                service: browser_mod.popup\
+                data:\
+                  title: Security Controls\
+                  content:\
+                    type: entities\
+                    entities:\
+                      - entity: light.anthony_lamp\
+                        name: Window Sensor\
+            icon: mdi:security\
+            icon_height: 50px\
+            show_state: true\
+          - show_name: true\
+            show_icon: true\
+            type: button\
+            name: Climate Sensors\
+            tap_action:\
+              action: fire-dom-event\
+              browser_mod:\
+                service: browser_mod.popup\
+                data:\
+                  title: Light Controls\
+                  target: null\
+                  content:\
+                    type: entities\
+                    entities:\
+                      - binary_sensor.anthony_ms_motion\
+                      - sensor.anthony_ms_temp\
+                      - sensor.anthony_ms_humidity\
+                      - sensor.anthony_ms_light\
+            icon: mdi:lamp-outline\
+            icon_height: 50px\
+            show_state: true\
   - title: Bedroom 2\
     path: bedroom-2\
     icon: mdi:bed\
@@ -398,112 +387,177 @@ views:\
             image: http://192.168.1.17:8123/local/floorplan/Bedroom2.jpeg\
             type: picture-elements\
             elements:\
-              - type: state-icon\
-                entity: light.debbie_lamp\
+              - type: image\
+                image: http://192.168.1.17:8123/local/Icons/smart-bulb.jpg\
+                entity: light.anthony_lamp\
                 style:\
-                  top: 90%\
-                  left: 50%\
-                  tap_action:\
-                    action: toggle\
-              - type: state-icon\
+                  top: 75%\
+                  left: 55%\
+                  width: 70px\
+                  border: 2px solid red\
+              - type: image\
+                image: http://192.168.1.17:8123/local/floorplan/tv.jpeg\
                 entity: media_player.chromecast\
                 style:\
                   top: 90%\
-                  left: 70%\
+                  left: 63%\
                   tap_action:\
                     action: toggle\
-              - type: icon\
-                icon: mdi:spotify\
+              - type: image\
+                image: http://192.168.1.17:8123/local/Icons/spotify.png\
+                entity: media_player.spotify\
                 style:\
-                  top: 90%\
-                  left: 60%\
-                  tap_action:\
-                    action: toggle\
-              - type: state-icon\
+                  top: 40%\
+                  left: 90%\
+                  width: 45px\
+              - type: image\
+                image: http://192.168.1.17:8123/local/Icons/smartspeaker.png\
                 entity: media_player.nestmini8950\
                 style:\
-                  top: 90%\
-                  left: 80%\
-                  tap_action:\
-                    action: toggle\
-              - type: state-icon\
+                  top: 10%\
+                  left: 90%\
+                  width: 20%\
+                  border: 2px solid red\
+              - type: image\
+                image: http://192.168.1.17:8123/local/Icons/climate.png\
                 entity: binary_sensor.anthony_ms_motion\
                 style:\
-                  top: 90%\
+                  top: 88%\
                   left: 90%\
+                  width: 90px\
               - type: image\
                 image: http://192.168.1.17:8123/local/floorplan/smartplug.png\
                 entity: light.anthony_pp_sp\
                 style:\
                   width: 35px\
-                  top: 90%\
+                  top: 92%\
                   left: 35%\
+              - type: image\
+                image: http://192.168.1.17:8123/local/floorplan/smartplug.png\
+                entity: light.anthony_pp_sp\
+                style:\
+                  width: 35px\
+                  top: 17%\
+                  left: 20%\
+              - type: image\
+                image: http://192.168.1.17:8123/local/floorplan/smartplug.png\
+                entity: light.anthony_pp_sp\
+                style:\
+                  width: 35px\
+                  top: 18%\
+                  left: 76%\
+              - type: image\
+                image: http://192.168.1.17:8123/local/Icons/rotatedaircon.png\
+                entity: binary_sensor.anthony_ms_motion\
+                style:\
+                  top: 45%\
+                  left: 8%\
+                  width: 200px\
+              - type: image\
+                image: http://192.168.1.17:8123/local/Icons/windowsensor.png\
+                style:\
+                  top: 65%\
+                  left: 5%\
+                  width: 70px\
+              - type: image\
+                image: http://192.168.1.17:8123/local/Icons/nestprotect.png\
+                entity: sensor.anthony_ms_temp\
+                style:\
+                  top: 70%\
+                  left: 86%\
+                  width: 70px\
         layout:\
-          width: 400\
+          width: 300\
           max_cols: 4\
-      - show_name: true\
-        show_icon: true\
-        type: button\
-        name: Smart Device Controls\
-        tap_action:\
-          action: fire-dom-event\
-          browser_mod:\
-            service: browser_mod.popup\
-            data:\
-              title: Light Controls\
-              target:\
-                device_id: dd902a1fafdfbdb69d60722ba32aa964\
-              content:\
-                type: entities\
-                entities:\
-                  - light.debbie_lamp\
-                  - media_player.spotify\
-                  - media_player.nestmini8950\
-                  - media_player.chromecast\
-        icon: mdi:lamp-outline\
-        icon_height: 50px\
-        show_state: true\
-      - show_name: true\
-        show_icon: true\
-        type: button\
-        name: Climate Sensors\
-        tap_action:\
-          action: fire-dom-event\
-          browser_mod:\
-            service: browser_mod.popup\
-            data:\
-              title: Light Controls\
-              target:\
-                device_id: dd902a1fafdfbdb69d60722ba32aa964\
-              content:\
-                type: entities\
-                entities:\
-                  - binary_sensor.anthony_ms_motion\
-                  - sensor.anthony_ms_temp\
-                  - sensor.anthony_ms_humidity\
-                  - sensor.anthony_ms_light\
-        icon: mdi:lamp-outline\
-        icon_height: 50px\
-        show_state: true\
-      - show_name: true\
-        show_icon: true\
-        type: button\
-        tap_action:\
-          action: fire-dom-event\
-          browser_mod:\
-            service: browser_mod.popup\
-            data:\
-              title: Smart Plug controls\
-              target:\
-                device_id: dd902a1fafdfbdb69d60722ba32aa964\
-              content:\
-                type: entities\
-                entities:\
-                  - light.anthony_pp_sp\
-        icon: mdi:power-plug\
-        name: Smart Plugs\
-        show_state: true\
-        icon_height: 50px\
+      - type: vertical-stack\
+        cards:\
+          - type: vertical-stack\
+            cards:\
+              - show_name: true\
+                show_icon: true\
+                type: button\
+                tap_action:\
+                  action: fire-dom-event\
+                  browser_mod:\
+                    service: browser_mod.popup\
+                    data:\
+                      title: Smart Plug controls\
+                      target: null\
+                      content:\
+                        type: entities\
+                        entities:\
+                          - entity: light.anthony_pp_sp\
+                            name: Bedroom 2 Plug 1\
+                          - entity: light.anthony_pp_sp\
+                            name: Bedroom 2 Plug 2\
+                          - entity: light.anthony_pp_sp\
+                            name: Bedroom 2 Plug 3\
+                icon: mdi:power-plug\
+                name: Smart Plugs\
+                show_state: true\
+                icon_height: 50px\
+              - show_name: true\
+                show_icon: true\
+                type: button\
+                name: Smart Device Controls\
+                tap_action:\
+                  action: fire-dom-event\
+                  browser_mod:\
+                    service: browser_mod.popup\
+                    data:\
+                      title: Light Controls\
+                      target: null\
+                      content:\
+                        type: entities\
+                        entities:\
+                          - light.anthony_lamp\
+                          - media_player.spotify\
+                          - media_player.nestmini8950\
+                          - media_player.chromecast\
+                icon: mdi:lamp-outline\
+                icon_height: 50px\
+                show_state: true\
+      - type: vertical-stack\
+        cards:\
+          - show_name: true\
+            show_icon: true\
+            type: button\
+            name: Security\
+            tap_action:\
+              action: fire-dom-event\
+              browser_mod:\
+                service: browser_mod.popup\
+                data:\
+                  title: Security Controls\
+                  content:\
+                    type: entities\
+                    entities:\
+                      - entity: light.anthony_lamp\
+                        name: Window Sensor\
+            icon: mdi:security\
+            icon_height: 50px\
+            show_state: true\
+          - show_name: true\
+            show_icon: true\
+            type: button\
+            name: Climate Sensors\
+            tap_action:\
+              action: fire-dom-event\
+              browser_mod:\
+                service: browser_mod.popup\
+                data:\
+                  title: Light Controls\
+                  target: null\
+                  content:\
+                    type: entities\
+                    entities:\
+                      - binary_sensor.anthony_ms_motion\
+                      - sensor.anthony_ms_temp\
+                      - sensor.anthony_ms_humidity\
+                      - sensor.anthony_ms_light\
+            icon: mdi:lamp-outline\
+            icon_height: 50px\
+            show_state: true\
   - title: Kitchen\
     path: kitchen\
     icon: mdi:fridge-outline\
@@ -517,34 +571,14 @@ views:\
             image: http://192.168.1.17:8123/local/floorplan/kitchen.jpeg\
             type: picture-elements\
             elements:\
-              - type: state-icon\
+              - type: image\
+                image: http://192.168.1.17:8123/local/Icons/smart-bulb.jpg\
                 entity: light.anthony_lamp\
                 style:\
-                  top: 25%\
-                  left: 30%\
-                  tap_action:\
-                    action: toggle\
-              - type: state-icon\
-                entity: light.anthony_lamp\
-                style:\
-                  top: 80%\
-                  left: 70%\
-                  tap_action:\
-                    action: toggle\
-              - type: state-icon\
-                entity: light.anthony_lamp\
-                style:\
-                  top: 80%\
-                  left: 30%\
-                  tap_action:\
-                    action: toggle\
-              - type: state-icon\
-                entity: light.anthony_lamp\
-                style:\
-                  top: 25%\
-                  left: 70%\
-                  tap_action:\
-                    action: toggle\
+                  top: 30%\
+                  left: 50%\
+                  width: 70px\
+                  border: 2px solid red\
               - type: image\
                 image: http://192.168.1.17:8123/local/floorplan/smartplug.png\
                 entity: light.kitchenfridge_sp_onoff\
@@ -552,272 +586,404 @@ views:\
                   width: 35px\
                   top: 90%\
                   left: 12%\
+                  border: 2px solid red\
               - type: image\
-                image: http://192.168.1.17:8123/local/floorplan/smartplug.png\
-                entity: light.kitchenfridge_sp_onoff\
-                style:\
-                  width: 35px\
-                  top: 90%\
-                  left: 35%\
-                  tap_action:\
-                    action: toggle\
-              - type: image\
-                image: http://192.168.1.17:8123/local/floorplan/smartplug.png\
-                entity: light.kitchenfridge_sp_onoff\
-                style:\
-                  width: 35px\
-                  top: 5%\
-                  left: 30%\
-                  tap_action:\
-                    action: toggle\
-              - type: state-icon\
-                entity: media_player.nestmini8950\
-                style:\
-                  top: 10%\
-                  left: 25%\
-                  tap_action:\
-                    action: toggle\
-              - type: state-icon\
+                image: http://192.168.1.17:8123/local/Icons/climate.png\
                 entity: binary_sensor.anthony_ms_motion\
                 style:\
-                  top: 93%\
-                  left: 47%\
+                  top: 85%\
+                  left: 90%\
+                  width: 90px\
+                  border: 2px solid red\
         layout:\
           width: 400\
           max_cols: 4\
-      - show_name: true\
-        show_icon: true\
-        type: button\
-        name: Smart Device Controls\
-        tap_action:\
-          action: fire-dom-event\
-          browser_mod:\
-            service: browser_mod.popup\
-            data:\
-              title: Light Controls\
-              target:\
-                device_id: dd902a1fafdfbdb69d60722ba32aa964\
-              content:\
-                type: entities\
-                entities:\
-                  - light.anthony_lamp\
-                  - media_player.spotify\
-                  - media_player.nestmini8950\
-                  - light.kitchenfridge_sp_onoff\
-        icon: mdi:lamp-outline\
-        icon_height: 50px\
-        show_state: true\
-      - show_name: true\
-        show_icon: true\
-        type: button\
-        name: Climate Sensors\
-        tap_action:\
-          action: fire-dom-event\
-          browser_mod:\
-            service: browser_mod.popup\
-            data:\
-              title: Light Controls\
-              target:\
-                device_id: dd902a1fafdfbdb69d60722ba32aa964\
-              content:\
-                type: entities\
-                entities:\
-                  - binary_sensor.anthony_ms_motion\
-                  - sensor.anthony_ms_temp\
-                  - sensor.anthony_ms_humidity\
-                  - sensor.anthony_ms_light\
-        icon: mdi:lamp-outline\
-        icon_height: 50px\
-        show_state: true\
-  - title: Laundry\
-    path: laundry\
-    icon: mdi:washing-machine-alert\
+      - type: vertical-stack\
+        cards:\
+          - type: vertical-stack\
+            cards:\
+              - show_name: true\
+                show_icon: true\
+                type: button\
+                tap_action:\
+                  action: fire-dom-event\
+                  browser_mod:\
+                    service: browser_mod.popup\
+                    data:\
+                      title: Smart Plug controls\
+                      target: null\
+                      content:\
+                        type: entities\
+                        entities:\
+                          - entity: light.anthony_pp_sp\
+                            name: Kitchen Plug 1\
+                          - entity: light.anthony_pp_sp\
+                            name: Kitchen Plug 2\
+                          - entity: light.anthony_pp_sp\
+                            name: Kitchen Plug 3\
+                icon: mdi:power-plug\
+                name: Smart Plugs\
+                show_state: true\
+                icon_height: 50px\
+              - show_name: true\
+                show_icon: true\
+                type: button\
+                name: Smart Device Controls\
+                tap_action:\
+                  action: fire-dom-event\
+                  browser_mod:\
+                    service: browser_mod.popup\
+                    data:\
+                      title: Light Controls\
+                      target: null\
+                      content:\
+                        type: entities\
+                        entities:\
+                          - entity: light.anthony_lamp\
+                            name: Kitchen Light 1\
+                          - entity: light.anthony_lamp\
+                            name: Kitchen Light 2\
+                          - entity: light.anthony_lamp\
+                            name: Kitchen Light 3\
+                          - entity: light.anthony_lamp\
+                            name: Kitchen Light 4\
+                          - entity: media_player.nestmini8950\
+                            name: Google Nest Speaker\
+                icon: mdi:lamp-outline\
+                icon_height: 50px\
+                show_state: true\
+      - type: vertical-stack\
+        cards:\
+          - show_name: true\
+            show_icon: true\
+            type: button\
+            name: Security\
+            tap_action:\
+              action: fire-dom-event\
+              browser_mod:\
+                service: browser_mod.popup\
+                data:\
+                  title: Security Controls\
+                  content:\
+                    type: entities\
+                    entities:\
+                      - entity: light.anthony_lamp\
+                        name: Window Sensor\
+            icon: mdi:security\
+            icon_height: 50px\
+            show_state: true\
+          - show_name: true\
+            show_icon: true\
+            type: button\
+            name: Climate Sensors\
+            tap_action:\
+              action: fire-dom-event\
+              browser_mod:\
+                service: browser_mod.popup\
+                data:\
+                  title: Light Controls\
+                  target: null\
+                  content:\
+                    type: entities\
+                    entities:\
+                      - binary_sensor.anthony_ms_motion\
+                      - sensor.anthony_ms_temp\
+                      - sensor.anthony_ms_humidity\
+                      - sensor.anthony_ms_light\
+            icon: mdi:lamp-outline\
+            icon_height: 50px\
+            show_state: true\
+  - title: Security\
+    path: security\
     type: custom:horizontal-layout\
+    icon: mdi:cctv\
     badges: []\
     cards:\
-      - type: custom:layout-card\
-        layout_type: masonry\
+      - type: vertical-stack\
         cards:\
-          - panel: true\
-            image: http://192.168.1.17:8123/local/floorplan/Laundry.jpeg\
-            type: picture-elements\
-            elements:\
-              - type: state-icon\
-                entity: light.anthony_lamp\
-                style:\
-                  top: 45%\
-                  left: 50%\
-                  tap_action:\
-                    action: toggle\
-              - type: image\
-                image: http://192.168.1.17:8123/local/floorplan/smartplug.png\
-                entity: light.laundry_sp\
-                style:\
-                  width: 35px\
-                  top: 25%\
-                  left: 85%\
-                  tap_action:\
-                    action: toggle\
-        layout:\
-          width: 400\
-          max_cols: 4\
-      - show_name: true\
-        show_icon: true\
-        type: button\
-        name: Smart Device Controls\
-        tap_action:\
-          action: fire-dom-event\
-          browser_mod:\
-            service: browser_mod.popup\
-            data:\
-              title: Light Controls\
-              target:\
-                device_id: dd902a1fafdfbdb69d60722ba32aa964\
-              content:\
-                type: entities\
-                entities:\
-                  - light.anthony_lamp\
-                  - light.laundry_sp\
-        icon: mdi:lamp-outline\
-        icon_height: 50px\
-        show_state: true\
-      - show_name: true\
-        show_icon: true\
-        type: button\
-        name: Climate Sensors\
-        tap_action:\
-          action: fire-dom-event\
-          browser_mod:\
-            service: browser_mod.popup\
-            data:\
-              title: Light Controls\
-              target:\
-                device_id: dd902a1fafdfbdb69d60722ba32aa964\
-              content:\
-                type: entities\
-                entities:\
-                  - binary_sensor.anthony_ms_motion\
-                  - sensor.anthony_ms_temp\
-                  - sensor.anthony_ms_humidity\
-                  - sensor.anthony_ms_light\
-        icon: mdi:lamp-outline\
-        icon_height: 50px\
-        show_state: true\
-  - title: Living Room\
-    path: living-room\
-    icon: mdi:sofa-outline\
-    type: custom:horizontal-layout\
+          - show_name: true\
+            show_icon: true\
+            type: button\
+            name: Front Porch\
+            tap_action:\
+              action: fire-dom-event\
+              browser_mod:\
+                service: browser_mod.popup\
+                data:\
+                  title: Light Controls\
+                  target: null\
+                  content:\
+                    type: picture-entity\
+                    entity: binary_sensor.anthony_ms_motion\
+                    image: http://192.168.1.17:8123/local/CamViews/porch.jpeg\
+            icon: mdi:cctv\
+            icon_height: 50px\
+            show_state: true\
+          - show_name: true\
+            show_icon: true\
+            type: button\
+            name: Beckdeck\
+            tap_action:\
+              action: fire-dom-event\
+              browser_mod:\
+                service: browser_mod.popup\
+                data:\
+                  title: Light Controls\
+                  target:\
+                    device_id: dd902a1fafdfbdb69d60722ba32aa964\
+                  content:\
+                    type: picture-entity\
+                    entity: binary_sensor.anthony_ms_motion\
+                    image: http://192.168.1.17:8123/local/CamViews/backdeck.jpeg\
+            icon: mdi:cctv\
+            icon_height: 50px\
+            show_state: true\
+          - show_name: true\
+            show_icon: true\
+            type: button\
+            tap_action:\
+              action: fire-dom-event\
+              browser_mod:\
+                service: browser_mod.popup\
+                data:\
+                  title: Smart Plug controls\
+                  target: null\
+                  content:\
+                    type: entities\
+                    entities:\
+                      - entity: binary_sensor.anthony_ms_motion\
+                        name: Bedroom 1 Fire Detector\
+                      - entity: binary_sensor.anthony_ms_motion\
+                        name: Bedroom 2 Fire Detector\
+                      - entity: binary_sensor.anthony_ms_motion\
+                        name: Hallway Fire Detector\
+            icon: mdi:fire\
+            name: Safety\
+            show_state: true\
+            icon_height: 50px\
+      - type: vertical-stack\
+        cards:\
+          - show_name: true\
+            show_icon: true\
+            type: button\
+            name: Hallway\
+            tap_action:\
+              action: fire-dom-event\
+              browser_mod:\
+                service: browser_mod.popup\
+                data:\
+                  title: Light Controls\
+                  target: null\
+                  content:\
+                    type: picture-entity\
+                    entity: binary_sensor.anthony_ms_motion\
+                    image: http://192.168.1.17:8123/local/CamViews/hallway.jpeg\
+            icon: mdi:cctv\
+            icon_height: 50px\
+            show_state: true\
+          - show_name: true\
+            show_icon: true\
+            type: button\
+            name: Livingroom\
+            tap_action:\
+              action: fire-dom-event\
+              browser_mod:\
+                service: browser_mod.popup\
+                data:\
+                  title: Light Controls\
+                  target:\
+                    device_id: dd902a1fafdfbdb69d60722ba32aa964\
+                  content:\
+                    type: picture-entity\
+                    entity: binary_sensor.anthony_ms_motion\
+                    image: http://192.168.1.17:8123/local/CamViews/livingroom.jpeg\
+            icon: mdi:cctv\
+            icon_height: 50px\
+            show_state: true\
+          - show_name: true\
+            show_icon: true\
+            type: button\
+            name: Full Security Floor Plan\
+            tap_action:\
+              action: navigate\
+              navigation_path: /lovelace/full-size-floor-plan\
+            icon: mdi:floor-plan\
+            show_state: true\
+            icon_height: 50px\
+  - title: Full Size Floor Plan\
+    path: full-size-floor-plan\
+    icon: mdi:floor-plan\
     badges: []\
     cards:\
-      - type: custom:layout-card\
-        layout_type: masonry\
+      - type: horizontal-stack\
         cards:\
-          - panel: true\
-            image: http://192.168.1.17:8123/local/floorplan/Livingroom.jpeg\
-            type: picture-elements\
-            elements:\
-              - type: state-icon\
-                entity: light.anthony_lamp\
-                style:\
-                  top: 45%\
-                  left: 22%\
-                  tap_action:\
-                    action: toggle\
-              - type: state-icon\
-                entity: light.anthony_lamp\
-                style:\
-                  top: 45%\
-                  left: 87%\
-                  tap_action:\
-                    action: toggle\
-              - type: image\
-                image: http://192.168.1.17:8123/local/floorplan/tv.jpeg\
-                entity: media_player.chromecast\
-                style:\
-                  top: 94%\
-                  left: 55%\
-                  tap_action:\
-                    action: toggle\
-              - type: state-icon\
-                entity: media_player.spotify\
-                style:\
-                  top: 35%\
-                  left: 50%\
-                  tap_action:\
-                    action: toggle\
-              - type: state-icon\
-                entity: media_player.nestmini8950\
-                style:\
-                  top: 45%\
-                  left: 55%\
-                  tap_action:\
-                    action: toggle\
-              - type: image\
-                image: http://192.168.1.17:8123/local/floorplan/smartplug.png\
-                entity: light.livingroom_sp\
-                style:\
-                  width: 35px\
-                  top: 90%\
-                  left: 90%\
-              - type: image\
-                image: http://192.168.1.17:8123/local/floorplan/smartplug.png\
-                entity: light.livingroom_sp\
-                style:\
-                  width: 35px\
-                  top: 35%\
-                  left: 20%\
-              - type: image\
-                image: http://192.168.1.17:8123/local/floorplan/smartplug.png\
-                entity: light.livingroom_sp\
-                style:\
-                  width: 35px\
-                  top: 35%\
-                  left: 90%\
-        layout:\
-          width: 400\
-          max_cols: 4\
-      - show_name: true\
-        show_icon: true\
-        type: button\
-        name: Smart Device Controls\
-        tap_action:\
-          action: fire-dom-event\
-          browser_mod:\
-            service: browser_mod.popup\
-            data:\
-              title: Light Controls\
-              target:\
-                device_id: dd902a1fafdfbdb69d60722ba32aa964\
-              content:\
-                type: entities\
-                entities:\
-                  - light.loungeroom_lamp_onoff\
-                  - media_player.nestmini8950\
-                  - media_player.chromecast\
-                  - light.livingroom_sp\
-        icon: mdi:lamp-outline\
-        icon_height: 50px\
-        show_state: true\
-      - show_name: true\
-        show_icon: true\
-        type: button\
-        name: Climate Sensors\
-        tap_action:\
-          action: fire-dom-event\
-          browser_mod:\
-            service: browser_mod.popup\
-            data:\
-              title: Light Controls\
-              target:\
-                device_id: dd902a1fafdfbdb69d60722ba32aa964\
-              content:\
-                type: entities\
-                entities:\
-                  - binary_sensor.anthony_ms_motion\
-                  - sensor.anthony_ms_temp\
-                  - sensor.anthony_ms_humidity\
-                  - sensor.anthony_ms_light\
-        icon: mdi:lamp-outline\
-        icon_height: 50px\
-        show_state: true\
+          - type: custom:layout-card\
+            layout_type: masonry\
+            cards:\
+              - panel: true\
+                image: http://192.168.1.17:8123/local/floorplan/FloorPlan.jpeg\
+                type: picture-elements\
+                elements:\
+                  - type: image\
+                    image: http://192.168.1.17:8123/local/Icons/cctv_icon.png\
+                    style:\
+                      top: 5%\
+                      left: 22%\
+                      width: 50px\
+                      border: 2px solid red\
+                    tap_action:\
+                      action: fire-dom-event\
+                      browser_mod:\
+                        service: browser_mod.popup\
+                        data:\
+                          title: Tester\
+                          content:\
+                            type: picture-entity\
+                            entity: binary_sensor.anthony_ms_motion\
+                            image: http://192.168.1.17:8123/local/CamViews/porch.jpeg\
+                  - type: image\
+                    image: http://192.168.1.17:8123/local/Icons/cctv_icon2.png\
+                    style:\
+                      top: 57%\
+                      left: 85%\
+                      width: 50px\
+                      border: 2px solid red\
+                    tap_action:\
+                      action: fire-dom-event\
+                      browser_mod:\
+                        service: browser_mod.popup\
+                        data:\
+                          title: Tester\
+                          content:\
+                            type: picture-entity\
+                            entity: binary_sensor.anthony_ms_motion\
+                            image: >-\
+                              http://192.168.1.17:8123/local/CamViews/backdeck.jpeg\
+                  - type: image\
+                    image: http://192.168.1.17:8123/local/Icons/cctv_icon2.png\
+                    style:\
+                      top: 93%\
+                      left: 29.5%\
+                      width: 30px\
+                      border: 2px solid red\
+                    tap_action:\
+                      action: fire-dom-event\
+                      browser_mod:\
+                        service: browser_mod.popup\
+                        data:\
+                          title: Tester\
+                          content:\
+                            type: picture-entity\
+                            entity: binary_sensor.anthony_ms_motion\
+                            image: >-\
+                              http://192.168.1.17:8123/local/CamViews/livingroom.jpeg\
+                  - type: image\
+                    image: http://192.168.1.17:8123/local/Icons/cctv_icon.png\
+                    style:\
+                      top: 35%\
+                      left: 64%\
+                      width: 30px\
+                      border: 2px solid red\
+                    tap_action:\
+                      action: fire-dom-event\
+                      browser_mod:\
+                        service: browser_mod.popup\
+                        data:\
+                          title: Tester\
+                          content:\
+                            type: picture-entity\
+                            entity: binary_sensor.anthony_ms_motion\
+                            image: >-\
+                              http://192.168.1.17:8123/local/CamViews/hallway.jpeg\
+                  - type: image\
+                    image: http://192.168.1.17:8123/local/Icons/nestprotect.png\
+                    entity: sensor.anthony_ms_temp\
+                    style:\
+                      top: 45%\
+                      left: 60%\
+                      width: 30px\
+                      border: 2px solid red\
+                  - type: image\
+                    image: http://192.168.1.17:8123/local/Icons/nestprotect.png\
+                    entity: sensor.anthony_ms_temp\
+                    style:\
+                      top: 25%\
+                      left: 40%\
+                      width: 30px\
+                      border: 2px solid red\
+                  - type: image\
+                    image: http://192.168.1.17:8123/local/Icons/nestprotect.png\
+                    entity: sensor.anthony_ms_temp\
+                    style:\
+                      top: 25%\
+                      left: 70%\
+                      width: 30px\
+                      border: 2px solid red\
+                  - type: image\
+                    image: http://192.168.1.17:8123/local/Icons/windowsensor.png\
+                    entity: binary_sensor.anthony_ms_motion\
+                    style:\
+                      top: 5%\
+                      left: 28.5%\
+                      width: 40px\
+                      border: 2px solid red\
+                  - type: image\
+                    image: http://192.168.1.17:8123/local/Icons/windowsensor.png\
+                    entity: binary_sensor.anthony_ms_motion\
+                    style:\
+                      top: 5%\
+                      left: 62.5%\
+                      width: 40px\
+                      border: 2px solid red\
+                  - type: image\
+                    image: http://192.168.1.17:8123/local/Icons/windowsensor.png\
+                    entity: binary_sensor.anthony_ms_motion\
+                    style:\
+                      top: 5%\
+                      left: 80%\
+                      width: 40px\
+                      border: 2px solid red\
+                  - type: image\
+                    image: http://192.168.1.17:8123/local/Icons/windowsensor.png\
+                    entity: binary_sensor.anthony_ms_motion\
+                    style:\
+                      top: 4%\
+                      left: 44%\
+                      width: 40px\
+                      border: 2px solid red\
+                  - type: image\
+                    image: http://192.168.1.17:8123/local/Icons/windowsensor.png\
+                    entity: binary_sensor.anthony_ms_motion\
+                    style:\
+                      top: 18%\
+                      left: 95.5%\
+                      width: 40px\
+                      border: 2px solid red\
+                  - type: image\
+                    image: http://192.168.1.17:8123/local/Icons/windowsensor.png\
+                    entity: binary_sensor.anthony_ms_motion\
+                    style:\
+                      top: 46%\
+                      left: 95.5%\
+                      width: 40px\
+                      border: 2px solid red\
+                  - type: image\
+                    image: http://192.168.1.17:8123/local/Icons/windowsensor.png\
+                    entity: binary_sensor.anthony_ms_motion\
+                    style:\
+                      top: 93%\
+                      left: 53.5%\
+                      width: 40px\
+                      border: 2px solid red\
+                  - type: image\
+                    image: http://192.168.1.17:8123/local/Icons/windowsensor.png\
+                    entity: binary_sensor.anthony_ms_motion\
+                    style:\
+                      top: 75%\
+                      left: 29%\
+                      width: 40px\
+                      border: 2px solid red\
+            layout:\
+              width: 800\
+              max_cols: 4\
 }
